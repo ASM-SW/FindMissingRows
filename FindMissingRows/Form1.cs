@@ -3,7 +3,6 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.VisualBasic.FileIO;
-using System.Collections.Generic;
 
 namespace FindMissingRows
 {
@@ -35,6 +34,11 @@ namespace FindMissingRows
             filterButton.Enabled = false;
         }
 
+        /// <summary>
+        /// Select the file to use for the member list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SelectMemberList_Click(object sender, EventArgs e)
         {
             openFileDialog1.Filter = "CSV files (*.csv)|*.csv";
@@ -48,6 +52,11 @@ namespace FindMissingRows
             m_memberListInit = true;
         }
 
+        /// <summary>
+        /// Select the file to use for the compare list
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SelectListToCompare_Click(object sender, EventArgs e)
         {
             openFileDialog1.Filter = "CSV files (*.csv)|*.csv";
@@ -61,7 +70,12 @@ namespace FindMissingRows
             m_compareListInit = true;
         }
 
-
+        /// <summary>
+        /// Read in a CSV file into data table and load combo box with column names from the new file
+        /// </summary>
+        /// <param name="csv_file_path">name of file to read in</param>
+        /// <param name="tableName">Title to give table</param>
+        /// <param name="comboBox">comboBox that will be reloaded with column names from file</param>
         private void FillDataTableFromCSVFile(string csv_file_path, string tableName, ref ComboBox comboBox)
         {
             // always start with a new table so that know the schema is correct
@@ -110,6 +124,11 @@ namespace FindMissingRows
             return;
         }
 
+        /// <summary>
+        /// Compare the two files and show the missing rows
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void findMissingItems_Click(object sender, EventArgs e)
         {
             if (!m_compareListInit)
@@ -159,8 +178,19 @@ namespace FindMissingRows
             // add index to compare list table
             DataColumn[] keys = new DataColumn[1];
             keys[0] = dtCompare.Columns[compareColName];
-            dtCompare.PrimaryKey = keys;
+            try
+            {
+                dtCompare.PrimaryKey = keys;
 
+            }
+            catch (Exception ex)
+            {
+                StringBuilder builder = new StringBuilder();
+                builder.AppendFormat("The file: {0}\n\nColumn: '{1}', must have unique values.\n\n", openFileDialog1.FileName, compareColName);
+                builder.AppendFormat("Error: {0}", ex.Message);
+                MessageBox.Show(builder.ToString());
+                return;
+            }
             // find missing items in compare
             foreach (DataRow row in dtMembers.Rows)
             {
@@ -194,6 +224,11 @@ namespace FindMissingRows
             Close();
         }
 
+        /// <summary>
+        /// Save missing rows to a CSV file
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void save_Click(object sender, EventArgs e)
         {
             SaveFileDialog saveDlg = new SaveFileDialog();
@@ -203,30 +238,10 @@ namespace FindMissingRows
             if (res != DialogResult.OK)
                 return;
 
-            StringBuilder output = new StringBuilder();
-
-            // output column headers row
-            int cnt = 1;
-            foreach (DataGridViewColumn col in dataGridView1.Columns)
+            using (System.IO.StreamWriter file = new System.IO.StreamWriter(saveDlg.FileName))
             {
-                output.AppendFormat("\"{0}\"", col.Name);
-                if (cnt++ < m_missingTable.Columns.Count)
-                    output.AppendFormat(",");
+                file.Write(dataGridView1.ToCSV());
             }
-            output.AppendLine();
-
-            cnt = 1;
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                for (int i = 0; i < row.Cells.Count;  i++)
-                {
-                    output.AppendFormat("\"{0}\"", row.Cells[i].FormattedValue);
-                    if (i < row.Cells.Count - 1)
-                        output.AppendFormat(",");
-                }
-                output.AppendLine();
-            }
-            System.IO.File.WriteAllText(saveDlg.FileName, output.ToString());
         }
 
         private void filterButton_Click(object sender, EventArgs e)
@@ -263,7 +278,7 @@ namespace FindMissingRows
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Bad filter: " + ex.ToString());
+                MessageBox.Show("Bad filter: " + ex.Message);
             }
             resultSummary.Text = string.Format("{0} members missing out of {1}, {2} rows visible with filter", 
                 m_missingTable.Rows.Count, 

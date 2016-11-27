@@ -1,11 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace FindMissingRows
@@ -21,20 +14,34 @@ namespace FindMissingRows
 
             filterColumn.Items.AddRange(columnNames);
 
+            // List of filter types to support
             filterTypeCb.Items.AddRange(new string [] {"Equals", "Begins", "Ends" });
+
+            // setup default filter type
             filterTypeCb.SelectedIndex = filterTypeCb.Items.IndexOf("Equals");
         }
 
+        /// <summary>
+        /// Apply the filter
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void apply_Click(object sender, EventArgs e)
         {
             MainForm.Filter(FilterString);
         }
 
+        // close the filter form
         private void cancel_Click(object sender, EventArgs e)
         {
             Close();
         }
 
+        /// <summary>
+        /// Handle changes in the selected filter type
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void filterColumn_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (filterColumn.SelectedItem != null)
@@ -44,6 +51,9 @@ namespace FindMissingRows
             UpdateFilter();
         }
 
+        /// <summary>
+        /// Create the filter and apply it.
+        /// </summary>
         private void UpdateFilter()
         {
             if (string.IsNullOrWhiteSpace(columnNameBox.Text) && string.IsNullOrWhiteSpace(filterTextBox.Text))
@@ -74,11 +84,21 @@ namespace FindMissingRows
             filterExpressionBox.Text = FilterString;
         }
 
+        /// <summary>
+        /// handle manual changes to the filter
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void filterText_TextChanged(object sender, EventArgs e)
         {
             UpdateFilter();
         }
 
+        /// <summary>
+        /// Handle the Clear button by setting no filter.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void clearButton_Click(object sender, EventArgs e)
         {
             filterColumn.SelectedItem = null;
@@ -87,6 +107,11 @@ namespace FindMissingRows
             MainForm.Filter(FilterString);
         }
 
+        /// <summary>
+        /// Handle a selection change of the filter type
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void filterTypeCb_SelectedIndexChanged(object sender, EventArgs e)
         {
             UpdateFilter();

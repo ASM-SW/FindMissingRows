@@ -71,7 +71,7 @@
             this.MemberListFileName.Location = new System.Drawing.Point(179, 63);
             this.MemberListFileName.Name = "MemberListFileName";
             this.MemberListFileName.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.MemberListFileName.Size = new System.Drawing.Size(297, 20);
+            this.MemberListFileName.Size = new System.Drawing.Size(673, 20);
             this.MemberListFileName.TabIndex = 1;
             this.MemberListFileName.WordWrap = false;
             // 
@@ -80,7 +80,7 @@
             this.CompareListFileName.Location = new System.Drawing.Point(179, 105);
             this.CompareListFileName.Name = "CompareListFileName";
             this.CompareListFileName.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
-            this.CompareListFileName.Size = new System.Drawing.Size(297, 20);
+            this.CompareListFileName.Size = new System.Drawing.Size(673, 20);
             this.CompareListFileName.TabIndex = 3;
             this.CompareListFileName.WordWrap = false;
             // 
@@ -101,7 +101,7 @@
             // columnToCompare
             // 
             this.columnToCompare.AutoSize = true;
-            this.columnToCompare.Location = new System.Drawing.Point(498, 30);
+            this.columnToCompare.Location = new System.Drawing.Point(874, 30);
             this.columnToCompare.Name = "columnToCompare";
             this.columnToCompare.Size = new System.Drawing.Size(103, 13);
             this.columnToCompare.TabIndex = 5;
@@ -110,7 +110,7 @@
             // memberColumnNames
             // 
             this.memberColumnNames.FormattingEnabled = true;
-            this.memberColumnNames.Location = new System.Drawing.Point(498, 61);
+            this.memberColumnNames.Location = new System.Drawing.Point(874, 61);
             this.memberColumnNames.Name = "memberColumnNames";
             this.memberColumnNames.Size = new System.Drawing.Size(121, 21);
             this.memberColumnNames.TabIndex = 4;
@@ -118,7 +118,7 @@
             // compareColumnNames
             // 
             this.compareColumnNames.FormattingEnabled = true;
-            this.compareColumnNames.Location = new System.Drawing.Point(498, 105);
+            this.compareColumnNames.Location = new System.Drawing.Point(874, 105);
             this.compareColumnNames.Name = "compareColumnNames";
             this.compareColumnNames.Size = new System.Drawing.Size(121, 21);
             this.compareColumnNames.TabIndex = 6;
@@ -207,7 +207,7 @@
             this.filterTextBox.Enabled = false;
             this.filterTextBox.Location = new System.Drawing.Point(298, 152);
             this.filterTextBox.Name = "filterTextBox";
-            this.filterTextBox.Size = new System.Drawing.Size(207, 20);
+            this.filterTextBox.Size = new System.Drawing.Size(288, 20);
             this.filterTextBox.TabIndex = 13;
             // 
             // Form1
