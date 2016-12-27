@@ -70,6 +70,52 @@ namespace FindMissingRows
             m_compareListInit = true;
         }
 
+        // swap files between MemberFileList and CompareListFile
+        private void buttonSwap_Click(object sender, EventArgs e)
+        {
+            // temporary remember settings for CompareList
+            string previousCompareListFileName = CompareListFileName.Text;
+            int previousCompareColumnNamesSelectedIndex = compareColumnNames.SelectedIndex;
+            bool previousCompareListInit = m_compareListInit;
+            bool compareListReFilled = false;
+
+            // if MemberList was initialized, then set CompareList to MemberList
+            if (m_memberListInit)
+            {
+                CompareListFileName.Text = MemberListFileName.Text;
+                FillDataTableFromCSVFile(CompareListFileName.Text, TableNames.CompareList.ToString(), ref compareColumnNames);
+                compareColumnNames.SelectedIndex = memberColumnNames.SelectedIndex;
+                m_compareListInit = true;
+                MemberListFileName.Text = string.Empty;
+                memberColumnNames.Items.Clear();
+                memberColumnNames.Text = string.Empty;
+                m_memberListInit = false;
+                compareListReFilled = true;
+            }
+
+            // if CompareList was initialized before entering funciton, then set MemberList to CompareList
+            if(previousCompareListInit)
+            {
+                MemberListFileName.Text = previousCompareListFileName;
+                FillDataTableFromCSVFile(MemberListFileName.Text, TableNames.MemberList.ToString(), ref memberColumnNames);
+                memberColumnNames.SelectedIndex = previousCompareColumnNamesSelectedIndex;
+                m_memberListInit = true;
+                if(!compareListReFilled)
+                {
+                    CompareListFileName.Clear();
+                    compareColumnNames.Items.Clear();
+                    compareColumnNames.Text = string.Empty;
+                    m_compareListInit = false;
+                }
+
+                if (dataSet.Tables.Contains(TableNames.MissingList.ToString()))
+                    dataSet.Tables[TableNames.MissingList.ToString()].Reset();
+            }
+            if (m_compareListInit && m_memberListInit)
+                FindMissingItems();
+        }
+
+
         /// <summary>
         /// Read in a CSV file into data table and load combo box with column names from the new file
         /// </summary>
@@ -131,6 +177,11 @@ namespace FindMissingRows
         /// <param name="e"></param>
         private void findMissingItems_Click(object sender, EventArgs e)
         {
+            FindMissingItems();
+        }
+
+        private void FindMissingItems()
+        {
             if (!m_compareListInit)
             {
                 MessageBox.Show("Compare list file has not been selected");
@@ -161,7 +212,7 @@ namespace FindMissingRows
             // check and see if the MissingList table exists, if it does replace it with a new one in case the schema is different
             if (dataSet.Tables.Contains(TableNames.MissingList.ToString()))
                 dataSet.Tables.Remove(m_missingTable);
-            
+
             // create the table for the missing rows
             m_missingTable = dtMembers.Clone();       // creates an empty clone with the same schema
             m_missingTable.TableName = TableNames.MissingList.ToString();
@@ -286,7 +337,6 @@ namespace FindMissingRows
                 dataGridView1.Rows.GetRowCount(DataGridViewElementStates.Visible));
             Refresh();
         }
-
 
     }
 

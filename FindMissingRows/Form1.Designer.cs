@@ -48,6 +48,7 @@
             this.resultSummary = new System.Windows.Forms.TextBox();
             this.filterButton = new System.Windows.Forms.Button();
             this.filterTextBox = new System.Windows.Forms.TextBox();
+            this.buttonSwap = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
@@ -58,7 +59,7 @@
             // 
             // SelectMemberList
             // 
-            this.SelectMemberList.Location = new System.Drawing.Point(34, 61);
+            this.SelectMemberList.Location = new System.Drawing.Point(34, 27);
             this.SelectMemberList.Name = "SelectMemberList";
             this.SelectMemberList.Size = new System.Drawing.Size(129, 23);
             this.SelectMemberList.TabIndex = 0;
@@ -68,7 +69,7 @@
             // 
             // MemberListFileName
             // 
-            this.MemberListFileName.Location = new System.Drawing.Point(179, 63);
+            this.MemberListFileName.Location = new System.Drawing.Point(179, 29);
             this.MemberListFileName.Name = "MemberListFileName";
             this.MemberListFileName.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.MemberListFileName.Size = new System.Drawing.Size(673, 20);
@@ -101,7 +102,7 @@
             // columnToCompare
             // 
             this.columnToCompare.AutoSize = true;
-            this.columnToCompare.Location = new System.Drawing.Point(874, 30);
+            this.columnToCompare.Location = new System.Drawing.Point(882, 9);
             this.columnToCompare.Name = "columnToCompare";
             this.columnToCompare.Size = new System.Drawing.Size(103, 13);
             this.columnToCompare.TabIndex = 5;
@@ -110,7 +111,7 @@
             // memberColumnNames
             // 
             this.memberColumnNames.FormattingEnabled = true;
-            this.memberColumnNames.Location = new System.Drawing.Point(874, 61);
+            this.memberColumnNames.Location = new System.Drawing.Point(874, 27);
             this.memberColumnNames.Name = "memberColumnNames";
             this.memberColumnNames.Size = new System.Drawing.Size(121, 21);
             this.memberColumnNames.TabIndex = 4;
@@ -210,11 +211,22 @@
             this.filterTextBox.Size = new System.Drawing.Size(288, 20);
             this.filterTextBox.TabIndex = 13;
             // 
+            // buttonSwap
+            // 
+            this.buttonSwap.Location = new System.Drawing.Point(388, 66);
+            this.buttonSwap.Name = "buttonSwap";
+            this.buttonSwap.Size = new System.Drawing.Size(98, 23);
+            this.buttonSwap.TabIndex = 14;
+            this.buttonSwap.Text = "Λ V Swap Files ";
+            this.buttonSwap.UseVisualStyleBackColor = true;
+            this.buttonSwap.Click += new System.EventHandler(this.buttonSwap_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1101, 563);
+            this.Controls.Add(this.buttonSwap);
             this.Controls.Add(this.filterTextBox);
             this.Controls.Add(this.filterButton);
             this.Controls.Add(this.resultSummary);
@@ -257,6 +269,7 @@
         private System.Windows.Forms.TextBox resultSummary;
         private System.Windows.Forms.Button filterButton;
         private System.Windows.Forms.TextBox filterTextBox;
+        private System.Windows.Forms.Button buttonSwap;
     }
 }
 
