@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
@@ -43,14 +44,18 @@
             this.compareColumnNames = new System.Windows.Forms.ComboBox();
             this.findMissingItems = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.contextMenuGridView = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.save = new System.Windows.Forms.Button();
             this.exit = new System.Windows.Forms.Button();
             this.resultSummary = new System.Windows.Forms.TextBox();
             this.filterButton = new System.Windows.Forms.Button();
             this.filterTextBox = new System.Windows.Forms.TextBox();
             this.buttonSwap = new System.Windows.Forms.Button();
+            this.textBoxConfigName = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.contextMenuGridView.SuspendLayout();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -59,7 +64,7 @@
             // 
             // SelectMemberList
             // 
-            this.SelectMemberList.Location = new System.Drawing.Point(34, 27);
+            this.SelectMemberList.Location = new System.Drawing.Point(34, 21);
             this.SelectMemberList.Name = "SelectMemberList";
             this.SelectMemberList.Size = new System.Drawing.Size(129, 23);
             this.SelectMemberList.TabIndex = 0;
@@ -69,7 +74,7 @@
             // 
             // MemberListFileName
             // 
-            this.MemberListFileName.Location = new System.Drawing.Point(179, 29);
+            this.MemberListFileName.Location = new System.Drawing.Point(179, 23);
             this.MemberListFileName.Name = "MemberListFileName";
             this.MemberListFileName.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.MemberListFileName.Size = new System.Drawing.Size(673, 20);
@@ -78,7 +83,7 @@
             // 
             // CompareListFileName
             // 
-            this.CompareListFileName.Location = new System.Drawing.Point(179, 105);
+            this.CompareListFileName.Location = new System.Drawing.Point(179, 88);
             this.CompareListFileName.Name = "CompareListFileName";
             this.CompareListFileName.ScrollBars = System.Windows.Forms.ScrollBars.Horizontal;
             this.CompareListFileName.Size = new System.Drawing.Size(673, 20);
@@ -87,7 +92,7 @@
             // 
             // SelectListToCompare
             // 
-            this.SelectListToCompare.Location = new System.Drawing.Point(34, 103);
+            this.SelectListToCompare.Location = new System.Drawing.Point(34, 86);
             this.SelectListToCompare.Name = "SelectListToCompare";
             this.SelectListToCompare.Size = new System.Drawing.Size(129, 23);
             this.SelectListToCompare.TabIndex = 2;
@@ -102,7 +107,7 @@
             // columnToCompare
             // 
             this.columnToCompare.AutoSize = true;
-            this.columnToCompare.Location = new System.Drawing.Point(882, 9);
+            this.columnToCompare.Location = new System.Drawing.Point(882, 3);
             this.columnToCompare.Name = "columnToCompare";
             this.columnToCompare.Size = new System.Drawing.Size(103, 13);
             this.columnToCompare.TabIndex = 5;
@@ -111,7 +116,7 @@
             // memberColumnNames
             // 
             this.memberColumnNames.FormattingEnabled = true;
-            this.memberColumnNames.Location = new System.Drawing.Point(874, 27);
+            this.memberColumnNames.Location = new System.Drawing.Point(874, 21);
             this.memberColumnNames.Name = "memberColumnNames";
             this.memberColumnNames.Size = new System.Drawing.Size(121, 21);
             this.memberColumnNames.TabIndex = 4;
@@ -119,14 +124,14 @@
             // compareColumnNames
             // 
             this.compareColumnNames.FormattingEnabled = true;
-            this.compareColumnNames.Location = new System.Drawing.Point(874, 105);
+            this.compareColumnNames.Location = new System.Drawing.Point(874, 88);
             this.compareColumnNames.Name = "compareColumnNames";
             this.compareColumnNames.Size = new System.Drawing.Size(121, 21);
             this.compareColumnNames.TabIndex = 6;
             // 
             // findMissingItems
             // 
-            this.findMissingItems.Location = new System.Drawing.Point(34, 152);
+            this.findMissingItems.Location = new System.Drawing.Point(34, 135);
             this.findMissingItems.Name = "findMissingItems";
             this.findMissingItems.Size = new System.Drawing.Size(129, 23);
             this.findMissingItems.TabIndex = 7;
@@ -150,6 +155,7 @@
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            this.dataGridView1.ContextMenuStrip = this.contextMenuGridView;
             this.dataGridView1.EnableHeadersVisualStyles = false;
             this.dataGridView1.Location = new System.Drawing.Point(0, 212);
             this.dataGridView1.Name = "dataGridView1";
@@ -164,11 +170,25 @@
             this.dataGridView1.Size = new System.Drawing.Size(1101, 351);
             this.dataGridView1.TabIndex = 8;
             // 
+            // contextMenuGridView
+            // 
+            this.contextMenuGridView.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1});
+            this.contextMenuGridView.Name = "contextMenuGridView";
+            this.contextMenuGridView.Size = new System.Drawing.Size(103, 26);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(102, 22);
+            this.toolStripMenuItem1.Text = "Copy";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
             // save
             // 
             this.save.AutoSize = true;
             this.save.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.save.Location = new System.Drawing.Point(34, 183);
+            this.save.Location = new System.Drawing.Point(34, 166);
             this.save.Name = "save";
             this.save.Size = new System.Drawing.Size(42, 23);
             this.save.TabIndex = 9;
@@ -178,7 +198,7 @@
             // 
             // exit
             // 
-            this.exit.Location = new System.Drawing.Point(757, 183);
+            this.exit.Location = new System.Drawing.Point(962, 166);
             this.exit.Name = "exit";
             this.exit.Size = new System.Drawing.Size(75, 23);
             this.exit.TabIndex = 10;
@@ -188,14 +208,14 @@
             // 
             // resultSummary
             // 
-            this.resultSummary.Location = new System.Drawing.Point(179, 183);
+            this.resultSummary.Location = new System.Drawing.Point(179, 166);
             this.resultSummary.Name = "resultSummary";
             this.resultSummary.Size = new System.Drawing.Size(449, 20);
             this.resultSummary.TabIndex = 11;
             // 
             // filterButton
             // 
-            this.filterButton.Location = new System.Drawing.Point(206, 152);
+            this.filterButton.Location = new System.Drawing.Point(206, 135);
             this.filterButton.Name = "filterButton";
             this.filterButton.Size = new System.Drawing.Size(75, 23);
             this.filterButton.TabIndex = 12;
@@ -206,14 +226,14 @@
             // filterTextBox
             // 
             this.filterTextBox.Enabled = false;
-            this.filterTextBox.Location = new System.Drawing.Point(298, 152);
+            this.filterTextBox.Location = new System.Drawing.Point(298, 135);
             this.filterTextBox.Name = "filterTextBox";
             this.filterTextBox.Size = new System.Drawing.Size(288, 20);
             this.filterTextBox.TabIndex = 13;
             // 
             // buttonSwap
             // 
-            this.buttonSwap.Location = new System.Drawing.Point(388, 66);
+            this.buttonSwap.Location = new System.Drawing.Point(388, 56);
             this.buttonSwap.Name = "buttonSwap";
             this.buttonSwap.Size = new System.Drawing.Size(98, 23);
             this.buttonSwap.TabIndex = 14;
@@ -221,11 +241,21 @@
             this.buttonSwap.UseVisualStyleBackColor = true;
             this.buttonSwap.Click += new System.EventHandler(this.buttonSwap_Click);
             // 
+            // textBoxConfigName
+            // 
+            this.textBoxConfigName.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.textBoxConfigName.Location = new System.Drawing.Point(179, 192);
+            this.textBoxConfigName.Name = "textBoxConfigName";
+            this.textBoxConfigName.ReadOnly = true;
+            this.textBoxConfigName.Size = new System.Drawing.Size(858, 18);
+            this.textBoxConfigName.TabIndex = 15;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1101, 563);
+            this.Controls.Add(this.textBoxConfigName);
             this.Controls.Add(this.buttonSwap);
             this.Controls.Add(this.filterTextBox);
             this.Controls.Add(this.filterButton);
@@ -244,8 +274,10 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Find Missing Rows";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form1_FormClosing);
             ((System.ComponentModel.ISupportInitialize)(this.dataSet)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.contextMenuGridView.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -270,6 +302,9 @@
         private System.Windows.Forms.Button filterButton;
         private System.Windows.Forms.TextBox filterTextBox;
         private System.Windows.Forms.Button buttonSwap;
+        private System.Windows.Forms.ContextMenuStrip contextMenuGridView;
+        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
+        private System.Windows.Forms.TextBox textBoxConfigName;
     }
 }
 

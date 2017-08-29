@@ -22,5 +22,53 @@ namespace FindMissingRows.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MemberListFileName {
+            get {
+                return ((string)(this["MemberListFileName"]));
+            }
+            set {
+                this["MemberListFileName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CompareListFileName {
+            get {
+                return ((string)(this["CompareListFileName"]));
+            }
+            set {
+                this["CompareListFileName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string MemberListColumnName {
+            get {
+                return ((string)(this["MemberListColumnName"]));
+            }
+            set {
+                this["MemberListColumnName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CompareListColumnName {
+            get {
+                return ((string)(this["CompareListColumnName"]));
+            }
+            set {
+                this["CompareListColumnName"] = value;
+            }
+        }
     }
 }

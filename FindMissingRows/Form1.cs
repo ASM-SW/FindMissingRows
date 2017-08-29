@@ -3,6 +3,7 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.VisualBasic.FileIO;
+using System.Configuration;
 
 namespace FindMissingRows
 {
@@ -17,12 +18,15 @@ namespace FindMissingRows
             CompareList,
             MissingList
         }
-        
+
         static readonly string defaultColumnName = "Select a column";
         bool m_memberListInit;
         bool m_compareListInit;
         DataTable m_missingTable;
         BindingSource m_bindingSource = new BindingSource();
+
+        Properties.Settings m_settings;
+
 
         public Form1()
         {
@@ -32,6 +36,37 @@ namespace FindMissingRows
             compareColumnNames.Enabled = false;
             save.Enabled = false;
             filterButton.Enabled = false;
+
+            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
+            textBoxConfigName.Text = string.Format("Configuration file: {0}", config.FilePath);
+
+            m_settings = Properties.Settings.Default;
+
+            InitFileControls(ref MemberListFileName, m_settings.MemberListFileName, ref m_memberListInit,
+                TableNames.MemberList.ToString(), ref memberColumnNames, m_settings.MemberListColumnName);
+            InitFileControls(ref CompareListFileName, m_settings.CompareListFileName, ref m_compareListInit,
+                TableNames.CompareList.ToString(), ref compareColumnNames, m_settings.CompareListColumnName);
+
+            Refresh();
+        }
+
+        private void InitFileControls(ref TextBox fileNameCtl, string fileName, ref bool bInit, string tableName, ref ComboBox columnNames, string columNameToSelect)
+        {
+            if (!System.IO.File.Exists(m_settings.MemberListFileName))
+                return;
+
+            fileNameCtl.Text = fileName;
+            FillDataTableFromCSVFile(fileNameCtl.Text, tableName, ref columnNames);
+            bInit = true;
+
+            if (string.IsNullOrEmpty(columNameToSelect))
+                return;
+
+            int index = columnNames.Items.IndexOf(columNameToSelect);
+            if (index < 0)
+                return;
+
+            columnNames.SelectedIndex = index;
         }
 
         /// <summary>
@@ -94,13 +129,13 @@ namespace FindMissingRows
             }
 
             // if CompareList was initialized before entering funciton, then set MemberList to CompareList
-            if(previousCompareListInit)
+            if (previousCompareListInit)
             {
                 MemberListFileName.Text = previousCompareListFileName;
                 FillDataTableFromCSVFile(MemberListFileName.Text, TableNames.MemberList.ToString(), ref memberColumnNames);
                 memberColumnNames.SelectedIndex = previousCompareColumnNamesSelectedIndex;
                 m_memberListInit = true;
-                if(!compareListReFilled)
+                if (!compareListReFilled)
                 {
                     CompareListFileName.Clear();
                     compareColumnNames.Items.Clear();
@@ -141,9 +176,9 @@ namespace FindMissingRows
                 string[] colFields = csvReader.ReadFields();
                 foreach (string column in colFields)
                 {
-                    DataColumn datecolumn = new DataColumn(column);
-                    datecolumn.AllowDBNull = true;
-                    csvData.Columns.Add(datecolumn);
+                    DataColumn datacolumn = new DataColumn(column);
+                    datacolumn.AllowDBNull = true;
+                    csvData.Columns.Add(datacolumn);
                 }
                 while (!csvReader.EndOfData)
                 {
@@ -303,8 +338,8 @@ namespace FindMissingRows
             {
                 names[i] = columns[i].ColumnName;
             }
-            
-            FilterDialog  filterDialog = new FilterDialog(names);
+
+            FilterDialog filterDialog = new FilterDialog(names);
             filterDialog.MainForm = this;
             filterDialog.StartPosition = FormStartPosition.CenterParent;
             filterDialog.ShowDialog();
@@ -331,13 +366,39 @@ namespace FindMissingRows
             {
                 MessageBox.Show("Bad filter: " + ex.Message);
             }
-            resultSummary.Text = string.Format("{0} members missing out of {1}, {2} rows visible with filter", 
-                m_missingTable.Rows.Count, 
+            resultSummary.Text = string.Format("{0} members missing out of {1}, {2} rows visible with filter",
+                m_missingTable.Rows.Count,
                 dataSet.Tables[TableNames.MemberList.ToString()].Rows.Count,
                 dataGridView1.Rows.GetRowCount(DataGridViewElementStates.Visible));
             Refresh();
         }
 
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            SendKeys.Send("^c");
+        }
+
+        private string GetSelectedItemText(ComboBox list)
+        {
+            if (list.SelectedIndex < 0)
+                return null;
+
+            if (list.SelectedItem.ToString() == defaultColumnName)
+                return null;
+
+            return list.SelectedItem.ToString();
+        }
+
+        private void Form1_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            m_settings.MemberListFileName = MemberListFileName.Text;
+            m_settings.MemberListColumnName = GetSelectedItemText(memberColumnNames);
+
+            m_settings.CompareListFileName = CompareListFileName.Text;
+            m_settings.CompareListColumnName = GetSelectedItemText(compareColumnNames);
+            m_settings.Save();
+
+        }
     }
 
 }
