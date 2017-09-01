@@ -1,12 +1,15 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.FileIO;
+using System;
 using System.Data;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using Microsoft.VisualBasic.FileIO;
-using System.Configuration;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace FindMissingRows
 {
+
     public partial class Form1 : Form
     {
         /// <summary>
@@ -25,8 +28,35 @@ namespace FindMissingRows
         DataTable m_missingTable;
         BindingSource m_bindingSource = new BindingSource();
 
-        Properties.Settings m_settings;
+        Configuration m_settings = new Configuration();
 
+        public static bool Serialize<T>(T value, string fileName/*, ref string serializeXml*/)
+        {
+            if (value == null)
+                return false;
+
+            XmlSerializer xmlserializer = new XmlSerializer(typeof(T));
+            using (StreamWriter stringWriter = new StreamWriter(fileName))
+            {
+                XmlWriter writer = XmlWriter.Create(stringWriter);
+                xmlserializer.Serialize(writer, value);
+                //serializeXml = stringWriter.ToString();
+            }
+            return true;
+        }
+
+        public bool DeSerialize<T>(ref T value, string fileName)
+        {
+            if (!File.Exists(fileName))
+                return false;
+
+            using (TextReader reader = new StreamReader(fileName))
+            {
+                XmlSerializer serializer = new XmlSerializer(typeof(Configuration));
+                value = (T)serializer.Deserialize(reader);
+            }
+            return true;
+        }
 
         public Form1()
         {
@@ -37,11 +67,9 @@ namespace FindMissingRows
             save.Enabled = false;
             filterButton.Enabled = false;
 
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal);
-            textBoxConfigName.Text = string.Format("Configuration file: {0}", config.FilePath);
+            DeSerialize(ref m_settings, Configuration.FileName);
 
-            m_settings = Properties.Settings.Default;
-
+            textBoxConfigName.Text = string.Format("Configuration file: {0}", Configuration.FileName);
             InitFileControls(ref MemberListFileName, m_settings.MemberListFileName, ref m_memberListInit,
                 TableNames.MemberList.ToString(), ref memberColumnNames, m_settings.MemberListColumnName);
             InitFileControls(ref CompareListFileName, m_settings.CompareListFileName, ref m_compareListInit,
@@ -396,7 +424,7 @@ namespace FindMissingRows
 
             m_settings.CompareListFileName = CompareListFileName.Text;
             m_settings.CompareListColumnName = GetSelectedItemText(compareColumnNames);
-            m_settings.Save();
+            Serialize(m_settings, Configuration.FileName);
 
         }
     }
