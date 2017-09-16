@@ -300,7 +300,7 @@ namespace FindMissingRows
             catch (Exception ex)
             {
                 StringBuilder builder = new StringBuilder();
-                builder.AppendFormat("The file: {0}\n\nColumn: '{1}', must have unique values.\n\n", openFileDialog1.FileName, compareColName);
+                builder.AppendFormat("The file: {0}\n\tColumn: '{1}', must have unique values.\n\n", CompareListFileName.Text, compareColName);
                 builder.AppendFormat("Error: {0}", ex.Message);
                 MessageBox.Show(builder.ToString());
                 return;
