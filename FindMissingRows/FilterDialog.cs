@@ -15,7 +15,7 @@ namespace FindMissingRows
             filterColumn.Items.AddRange(columnNames);
 
             // List of filter types to support
-            filterTypeCb.Items.AddRange(new string [] {"Equals", "Begins", "Ends" });
+            filterTypeCb.Items.AddRange(new string [] {"Equals", "Begins", "Ends", "Empty", "Not Equal" });
 
             // setup default filter type
             filterTypeCb.SelectedIndex = filterTypeCb.Items.IndexOf("Equals");
@@ -67,11 +67,17 @@ namespace FindMissingRows
                     case "Equals":
                         FilterString = string.Format("[{0}] = '{1}'", columnNameBox.Text, filterTextBox.Text);
                         break;
+                    case "Not Equal":
+                        FilterString = string.Format("[{0}] <> '{1}'", columnNameBox.Text, filterTextBox.Text);
+                        break;
                     case "Begins":
                         FilterString = string.Format("[{0}] LIKE '{1}*'", columnNameBox.Text, filterTextBox.Text);
                         break;
                     case "Ends":
                         FilterString = string.Format("[{0}] LIKE '*{1}'", columnNameBox.Text, filterTextBox.Text);
+                        break;
+                    case "Empty":
+                        FilterString = string.Format("[{0}] ='' or [{0}] is null ", columnNameBox.Text);
                         break;
                     default:
                         return;

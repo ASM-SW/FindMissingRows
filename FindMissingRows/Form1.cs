@@ -394,10 +394,14 @@ namespace FindMissingRows
             {
                 MessageBox.Show("Bad filter: " + ex.Message);
             }
-            resultSummary.Text = string.Format("{0} members missing out of {1}, {2} rows visible with filter",
+
+            resultSummary.Text = string.Format("{0} members missing out of {1}",
                 m_missingTable.Rows.Count,
-                dataSet.Tables[TableNames.MemberList.ToString()].Rows.Count,
-                dataGridView1.Rows.GetRowCount(DataGridViewElementStates.Visible));
+                dataSet.Tables[TableNames.MemberList.ToString()].Rows.Count);
+
+            if (filter.Length > 0)
+                resultSummary.Text += string.Format("; {0} rows visible with filter", dataGridView1.Rows.GetRowCount(DataGridViewElementStates.Visible));
+
             Refresh();
         }
 
