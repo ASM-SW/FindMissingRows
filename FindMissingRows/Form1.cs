@@ -36,26 +36,42 @@ namespace FindMissingRows
                 return false;
 
             XmlSerializer xmlserializer = new XmlSerializer(typeof(T));
-            using (StreamWriter stringWriter = new StreamWriter(fileName))
+            try
             {
-                XmlWriter writer = XmlWriter.Create(stringWriter);
-                xmlserializer.Serialize(writer, value);
-                //serializeXml = stringWriter.ToString();
+                using (StreamWriter stringWriter = new StreamWriter(fileName))
+                {
+                    XmlWriter writer = XmlWriter.Create(stringWriter);
+                    xmlserializer.Serialize(writer, value);
+                    //serializeXml = stringWriter.ToString();
+                }
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show("Error: \n" + ex.Message);
+                return false;
             }
             return true;
         }
 
         public bool DeSerialize<T>(ref T value, string fileName)
         {
-            if (!File.Exists(fileName))
-                return false;
-
-            using (TextReader reader = new StreamReader(fileName))
+            try
             {
-                XmlSerializer serializer = new XmlSerializer(typeof(Configuration));
-                value = (T)serializer.Deserialize(reader);
+                if (!File.Exists(fileName))
+                    return false;
+
+                using (TextReader reader = new StreamReader(fileName))
+                {
+                    XmlSerializer serializer = new XmlSerializer(typeof(Configuration));
+                    value = (T)serializer.Deserialize(reader);
+                }
+                return true;
             }
-            return true;
+            catch (IOException ex)
+            {
+                MessageBox.Show("Error: \n" + ex.Message);
+                return false;
+            }
         }
 
         public Form1()
@@ -197,30 +213,39 @@ namespace FindMissingRows
 
             comboBox.Items.Clear();
 
-            using (TextFieldParser csvReader = new TextFieldParser(csv_file_path))
+            try
             {
-                csvReader.SetDelimiters(new string[] { "," });
-                csvReader.HasFieldsEnclosedInQuotes = true;
-                string[] colFields = csvReader.ReadFields();
-                foreach (string column in colFields)
+                using (TextFieldParser csvReader = new TextFieldParser(csv_file_path))
                 {
-                    DataColumn datacolumn = new DataColumn(column);
-                    datacolumn.AllowDBNull = true;
-                    csvData.Columns.Add(datacolumn);
-                }
-                while (!csvReader.EndOfData)
-                {
-                    string[] fieldData = csvReader.ReadFields();
-                    //Making empty value as null
-                    for (int i = 0; i < fieldData.Length; i++)
+                    csvReader.SetDelimiters(new string[] { "," });
+                    csvReader.HasFieldsEnclosedInQuotes = true;
+                    string[] colFields = csvReader.ReadFields();
+                    foreach (string column in colFields)
                     {
-                        if (fieldData[i] == "")
-                        {
-                            fieldData[i] = null;
-                        }
+                        DataColumn datacolumn = new DataColumn(column);
+                        datacolumn.AllowDBNull = true;
+                        csvData.Columns.Add(datacolumn);
                     }
-                    csvData.Rows.Add(fieldData);
+                    while (!csvReader.EndOfData)
+                    {
+                        string[] fieldData = csvReader.ReadFields();
+                        //Making empty value as null
+                        for (int i = 0; i < fieldData.Length; i++)
+                        {
+                            if (fieldData[i] == "")
+                            {
+                                fieldData[i] = null;
+                            }
+                        }
+                        csvData.Rows.Add(fieldData);
+                    }
                 }
+
+            }
+            catch (IOException ex)
+            {
+                MessageBox.Show("Error: \n" + ex.Message);
+                return;
             }
             comboBox.Items.Add(defaultColumnName);
             foreach (DataColumn column in csvData.Columns)
